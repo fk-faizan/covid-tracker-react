@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchData } from './../../api'
+import { Card } from './../../components/index';
+import ImgCoronaVirus from '../../assets/images/coronavirus.png';
+
 
 const Home = () => {
 
@@ -41,11 +44,16 @@ const Home = () => {
                     </ul>
                 </div>
             </div>
-            <div className="container m-4 text-light bg-dark">
-                {
-                    !state.data ? "Loading...." : (state.data.find(obj => obj.state === searchCountry) || {}).positive || '------'
-                }
+            <div className="container mt-4">
+                <div className="row">
+                    <div className="col-md-12 d-flex">
+                        <Card img={ImgCoronaVirus} title="Confirmed Cases" value={!state.data ? "Loading...." : (state.data.find(obj => obj.state === searchCountry) || {}).positive || '------'} other="Last updated 3 mins ago" />
+                        <Card img={ImgCoronaVirus} title="Hospitalized" value={!state.data ? "Loading...." : (state.data.find(obj => obj.state === searchCountry) || {}).hospitalized || '------'} other="Last updated 3 mins ago" />
+                        <Card img={ImgCoronaVirus} title="Deaths" value={!state.data ? "Loading...." : (state.data.find(obj => obj.state === searchCountry) || {}).death || '------'} other="Last updated 3 mins ago" />
+                    </div>
+                </div>
             </div>
+
 
         </>
     )
