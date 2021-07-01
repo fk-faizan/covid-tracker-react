@@ -1,11 +1,10 @@
 import React from 'react'
-import { Home, CovidTraker } from '../layout'
+import { Home } from '../layout'
 
 const home = () => {
     return (
         <>
-            <Home/>
-            <CovidTraker/>
+            <Home />
         </>
     )
 }

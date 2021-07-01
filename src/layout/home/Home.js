@@ -1,33 +1,53 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from "react-redux"
-import axios from 'axios';
+import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { fetchData } from './../../api'
 
 const Home = () => {
 
-    let dispatch = useDispatch();
+    const dispatch = useDispatch();
+    const state = useSelector(state => state);
+    // console.log(state);
 
-    const [data, setData] = useState([]);
-
-    useEffect(() => {
-        const fetchApi = async () => {
-            const res = await axios.get('https://api.covidtracking.com/v1/states/current.json');
-            // console.log(res.data);
-            setData(res.data)
-        }
-        fetchApi();
-    }, [setData])
+    const [fetchedCountries, setFetchedCountries] = useState([]);
+    const [searchCountry, setSearchCountry] = useState("");
 
     useEffect(() => {
-        const sendData = () => {
-            dispatch({type: 'FATCHDATA', data: data})
-        }
-        sendData();
-    }, [data])
+        fetchData(dispatch);
+    }, [dispatch])
+
+
+    const getCountryData = (e) => {
+        // console.log(e);
+        setSearchCountry(e.target.innerHTML);
+    }
+
 
     return (
-        <div>
-            Its Home Page
-        </div>
+        <>
+            <div className="d-flex justify-content-center mt-5">
+                <div className="dropdown">
+                    <button className="btn btn-secondary dropdown-toggle px-5 shadow" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        Select Country
+                    </button>
+                    <ul className="dropdown-menu" style={{ height: 'auto', maxHeight: '200px', overflowX: 'hidden' }} aria-labelledby="dropdownMenuButton1">
+                        {
+                            !state.data ? "Loading...." :
+                                state.data.map((obj, index) => {
+                                    return (
+                                        <li key={index} onClick={getCountryData} className="dropdown-item">{obj.state}</li>
+                                    )
+                                })
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div className="container m-4 text-light bg-dark">
+                {
+                    !state.data ? "Loading...." : (state.data.find(obj => obj.state === searchCountry) || {}).positive || '------'
+                }
+            </div>
+
+        </>
     )
 }
 
