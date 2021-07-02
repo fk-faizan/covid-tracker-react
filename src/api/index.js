@@ -15,3 +15,14 @@ export function fetchData(dispatch) {
             console.error("Error: ", error)
         })
 }
+
+export const fetchCountries = async () => {
+    try {
+        const {
+            data: { countries },
+        } = await axios.get(url2);
+        return countries.map((country) => country.name);
+    } catch (error) {
+        console.log(error);
+    }
+};

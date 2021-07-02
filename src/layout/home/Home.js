@@ -7,11 +7,10 @@ import ImgCoronaVirus from '../../assets/images/coronavirus.png';
 
 const Home = () => {
 
-    const dispatch = useDispatch();
     const state = useSelector(state => state);
     // console.log(state);
+    const dispatch = useDispatch();
 
-    const [fetchedCountries, setFetchedCountries] = useState([]);
     const [searchCountry, setSearchCountry] = useState("");
 
     useEffect(() => {
@@ -23,6 +22,7 @@ const Home = () => {
         // console.log(e);
         setSearchCountry(e.target.innerHTML);
     }
+
 
 
     return (
@@ -52,6 +52,21 @@ const Home = () => {
                         <Card img={ImgCoronaVirus} title="Deaths" value={!state.data ? "Loading...." : (state.data.find(obj => obj.state === searchCountry) || {}).death || '------'} other="Last updated 3 mins ago" />
                     </div>
                 </div>
+
+
+                {/* <div className="mt-5">
+                    <div className="dropdown">
+                        <button className="btn btn-secondary dropdown-toggle px-5 shadow" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Country
+                        </button>
+                        <ul className="dropdown-menu" style={{ height: 'auto', maxHeight: '200px', overflowX: 'hidden' }} aria-labelledby="dropdownMenuButton1">
+                            {fetchedCountries.map((country, key) => (
+                                <li key={key} className="dropdown-item">{country}</li>
+                            ))}
+
+                        </ul>
+                    </div>
+                </div> */}
             </div>
 
 
